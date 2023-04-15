@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   View,
   Text,
@@ -6,49 +6,61 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
-} from "react-native";
-import { useRouter } from "expo-router";
+} from 'react-native';
+import { useRouter } from 'expo-router';
+import styles from './welcome.style';
+import { icons, SIZES } from '../../../constants';
 
-import styles from "./welcome.style";
-import { icons, SIZES } from "../../../constants";
+// An array of job types
+const jobTypes = ['Full-time', 'Part-time', 'Contractor'];
 
-const jobTypes = ["Full-time", "Part-time", "Contractor"];
-
+// Defining the Welcome component
 const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
+  // Getting the router object from the Expo module
   const router = useRouter();
-  const [activeJobType, setActiveJobType] = useState("Full-time");
+  // Defining a state variable activeJobType with its initial value as 'Full-time'
+  const [activeJobType, setActiveJobType] = useState('Full-time');
 
+  // Rendering the component
   return (
     <View>
+      {/* A container for the welcome message */}
       <View style={styles.container}>
-        <Text style={styles.userName}>Hello Adrian</Text>
+        <Text style={styles.userName}>Hello Hanif</Text>
         <Text style={styles.welcomeMessage}>Find your perfect job</Text>
       </View>
 
+      {/* A container for the search box */}
       <View style={styles.searchContainer}>
         <View style={styles.searchWrapper}>
+          {/* The search input box */}
           <TextInput
             style={styles.searchInput}
             value={searchTerm}
             onChangeText={(text) => setSearchTerm(text)}
-            placeholder='What are you looking for?'
+            placeholder="What are you looking for?"
           />
         </View>
 
+        {/* The search button */}
         <TouchableOpacity style={styles.searchBtn} onPress={handleClick}>
           <Image
             source={icons.search}
-            resizeMode='contain'
+            resizeMode="contain"
             style={styles.searchBtnImage}
           />
         </TouchableOpacity>
       </View>
 
+      {/* A container for the job type tabs */}
       <View style={styles.tabsContainer}>
+        {/* A FlatList of job types */}
         <FlatList
           data={jobTypes}
+          // It specifies how each item should look like
           renderItem={({ item }) => (
             <TouchableOpacity
+              // Setting the active tab style if the job type is active
               style={styles.tab(activeJobType, item)}
               onPress={() => {
                 setActiveJobType(item);
@@ -60,11 +72,13 @@ const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
           )}
           keyExtractor={(item) => item}
           contentContainerStyle={{ columnGap: SIZES.small }}
-          horizontal
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
         />
       </View>
     </View>
   );
 };
 
+// Exporting the Welcome component
 export default Welcome;
